@@ -1,11 +1,12 @@
 package com.githubsearcher.data.source
 
-import com.githubsearcher.data.Users
+import com.githubsearcher.data.UsersDetail
 import io.reactivex.disposables.Disposable
 
 interface SearchLikeDataSource {
-    fun getSearchedUserInfo(
-        onSuccess: (Users) -> Unit,
+    fun searchUserInfo(
+        userID: String,
+        onSuccess: (List<UsersDetail>) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable
 }

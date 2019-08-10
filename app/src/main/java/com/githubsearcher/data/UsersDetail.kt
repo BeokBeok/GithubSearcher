@@ -2,7 +2,7 @@ package com.githubsearcher.data
 
 import com.google.gson.annotations.SerializedName
 
-data class UserDetailItem(
+data class UsersDetail(
 
     // 아바타 이미지
     @SerializedName("avatar_url")

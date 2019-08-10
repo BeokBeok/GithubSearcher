@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class Users(
 
     @SerializedName("items")
-    val items: List<UserDetailItem>
+    val items: List<UsersDetail>
 )
