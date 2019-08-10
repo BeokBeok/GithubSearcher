@@ -14,7 +14,7 @@ abstract class BaseFragment<VDB : ViewDataBinding>(
     private val resource: Int
 ) : Fragment() {
 
-    private lateinit var binding: VDB
+    protected lateinit var binding: VDB
 
     override fun onCreateView(
         inflater: LayoutInflater,
