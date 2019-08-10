@@ -41,18 +41,23 @@ class SearchLikeContentsFragment :
     @Suppress("UNCHECKED_CAST")
     private fun showContents() {
         binding.vm?.let {
-            it.addDisposable(
-                RxEventBus.getEvents()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ data ->
-                        if (data is List<*>) {
-                            it.usersDetail.value = data as List<UsersDetail>
-                        }
-                    }, { err ->
-                        showToast(err.message)
-                    })
-            )
+            val position = getPosition()
+            if (position == 0) {
+                it.addDisposable(
+                    RxEventBus.getEvents()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ data ->
+                            if (data is List<*>) {
+                                it.usersDetail.value = data as List<UsersDetail>
+                            }
+                        }, { err ->
+                            showToast(err.message)
+                        })
+                )
+            }
         }
     }
+
+    private fun getPosition(): Int = arguments?.getInt("position") ?: 0
 }
