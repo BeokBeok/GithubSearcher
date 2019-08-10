@@ -2,6 +2,7 @@ package com.githubsearcher.searchlike
 
 
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
@@ -21,6 +22,7 @@ class SearchLikeOutlineFragment :
         binding.vm = viewModel
         initViewPager()
         setObserve()
+        setKeypadEditorActionListener()
     }
 
     private fun initViewPager() {
@@ -46,10 +48,24 @@ class SearchLikeOutlineFragment :
         binding.vm?.let {
             it.errMsg.observe(
                 this,
-                Observer {
-                    showToast(it.message)
+                Observer { throwable ->
+                    showToast(throwable.message)
                 }
             )
+        }
+    }
+
+    private fun setKeypadEditorActionListener() {
+        binding.etSearch.run {
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setOnEditorActionListener { textView, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    binding.vm?.searchUserInfo(textView.text.toString())
+                    false
+                } else {
+                    true
+                }
+            }
         }
     }
 }
