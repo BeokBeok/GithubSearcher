@@ -3,8 +3,8 @@ package com.githubsearcher.githubsearchlike
 
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
-import com.githubsearcher.databinding.FragmentSearchLikeBinding
+import com.githubsearcher.databinding.FragmentSearchLikeOutlineBinding
 
-class SearchLikeOutlineFragment : BaseFragment<FragmentSearchLikeBinding>(
-    R.layout.fragment_search_like
+class SearchLikeOutlineFragment : BaseFragment<FragmentSearchLikeOutlineBinding>(
+    R.layout.fragment_search_like_outline
 )
