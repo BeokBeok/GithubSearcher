@@ -1,4 +1,4 @@
-package com.githubsearcher.githubsearchlike
+package com.githubsearcher.searchlike
 
 
 import com.githubsearcher.R
