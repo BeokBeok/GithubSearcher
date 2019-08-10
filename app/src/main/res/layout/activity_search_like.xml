@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".githubsearchlike.GithubSearchLikeActivity">
+    tools:context=".githubsearchlike.SearchLikeActivity">
 
     <fragment
         android:id="@+id/fg_search_like"
-        android:name="com.githubsearcher.githubsearchlike.GithubSearchLikeFragment"
+        android:name="com.githubsearcher.githubsearchlike.SearchLikeOutlineFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
