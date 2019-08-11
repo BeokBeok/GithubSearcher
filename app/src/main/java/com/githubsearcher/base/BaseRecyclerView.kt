@@ -22,7 +22,8 @@ abstract class BaseRecyclerView {
                 false
             )
     ) {
-        private val binding: VDB = DataBindingUtil.bind(itemView)!!
+
+        protected val binding: VDB = DataBindingUtil.bind(itemView)!!
 
         fun onBindViewHolder(item: Any?) {
             bindingVariableId?.let {
@@ -39,6 +40,7 @@ abstract class BaseRecyclerView {
         private val layoutRes: Int,
         private val bindingVariableId: Int?
     ) : RecyclerView.Adapter<ViewHolder<VDB>>() {
+
         private val items = mutableListOf<A>()
 
         override fun onCreateViewHolder(

@@ -6,8 +6,12 @@
     <data>
 
         <variable
-            name="usersDetail"
+            name="users"
             type="com.githubsearcher.data.Users" />
+
+        <variable
+            name="vm"
+            type="com.githubsearcher.searchlike.SearchLikeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +20,7 @@
 
         <ImageView
             android:id="@+id/iv_avatar"
-            srcWithGlide="@{usersDetail.avatarUrl}"
+            srcWithGlide="@{users.avatarUrl}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toStartOf="@id/tv_name"
@@ -32,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@{usersDetail.login}"
+            android:text="@{users.login}"
             app:layout_constraintEnd_toStartOf="@id/tv_score"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
@@ -44,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@{String.valueOf(usersDetail.score)}"
+            android:text="@{String.valueOf(users.score)}"
             app:layout_constraintEnd_toStartOf="@id/cb_star"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@id/tv_name"
@@ -56,6 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:onClick="@{() -> vm.likeUser(users, cbStar.isChecked())}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/tv_score"

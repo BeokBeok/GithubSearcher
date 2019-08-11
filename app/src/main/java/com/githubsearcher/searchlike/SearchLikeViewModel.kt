@@ -1,5 +1,6 @@
 package com.githubsearcher.searchlike
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.githubsearcher.base.BaseViewModel
@@ -14,7 +15,7 @@ class SearchLikeViewModel(
     private val _errMsg = MutableLiveData<Throwable>()
     private val _searchWord = MutableLiveData<String>()
 
-    val usersDetail = MutableLiveData<List<Users>>()
+    val users = MutableLiveData<List<Users>>()
     val errMsg: LiveData<Throwable> get() = _errMsg
     val searchWord: LiveData<String> get() = _searchWord
 
@@ -24,7 +25,7 @@ class SearchLikeViewModel(
             searchLikeRepository.searchUserInfo(
                 userID,
                 onSuccess = {
-                    usersDetail.value = it
+                    users.value = it
                     RxEventBus.sendEvent(it)
                 },
                 onFail = {
@@ -36,5 +37,12 @@ class SearchLikeViewModel(
 
     fun removeSearchWord() {
         _searchWord.value = ""
+    }
+
+    fun likeUser(
+        user: Users,
+        isChecked: Boolean
+    ) {
+        Log.d("kkk", "isCheck is $isChecked")
     }
 }
