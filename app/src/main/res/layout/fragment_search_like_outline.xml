@@ -28,6 +28,7 @@
                 android:hint="@string/hint_input_user_to_search"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:text="@{vm.searchWord}"
                 app:layout_constraintEnd_toStartOf="@id/ib_search"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintHorizontal_weight="5"
@@ -43,7 +44,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/et_search"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> vm.searchUserInfo(etSearch.getText().toString())}"
+                android:onClick="@{() -> vm.searchUserInfo(vm.searchWord)}"
                 tools:ignore="contentDescription" />
 
             <ImageButton
@@ -55,6 +56,7 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/ib_search"
                 app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{() -> vm.removeSearchWord()}"
                 tools:ignore="contentDescription" />
 
             <!-- Tab -->

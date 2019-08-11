@@ -11,9 +11,13 @@ class SearchLikeViewModel(
     private val searchLikeRepository: SearchLikeRepository
 ) : BaseViewModel() {
 
-    val usersDetail = MutableLiveData<List<Users>>()
     private val _errMsg = MutableLiveData<Throwable>()
+    private val _searchWord = MutableLiveData<String>()
+
+    val usersDetail = MutableLiveData<List<Users>>()
     val errMsg: LiveData<Throwable> get() = _errMsg
+    val searchWord: LiveData<String> get() = _searchWord
+
 
     fun searchUserInfo(userID: String) {
         addDisposable(
@@ -28,5 +32,9 @@ class SearchLikeViewModel(
                 }
             )
         )
+    }
+
+    fun removeSearchWord() {
+        _searchWord.value = ""
     }
 }
