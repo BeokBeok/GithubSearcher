@@ -3,6 +3,7 @@ package com.githubsearcher.util
 import android.content.Context
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.githubsearcher.R
 
 object GlideWrapper {
@@ -13,7 +14,7 @@ object GlideWrapper {
     ) {
         Glide.with(context)
             .load(url)
-            .placeholder(R.mipmap.ic_launcher)
+            .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
             .into(targetView)
     }
 }

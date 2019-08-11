@@ -1,6 +1,6 @@
 package com.githubsearcher.data.source.remote
 
-import com.githubsearcher.data.UsersDetail
+import com.githubsearcher.data.Users
 import com.githubsearcher.data.source.SearchLikeDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ class SearchLikeRemoteDataSource(
 
     override fun searchUserInfo(
         userID: String,
-        onSuccess: (List<UsersDetail>) -> Unit,
+        onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable = retrofit.getUserInfo(userID)
         .subscribeOn(Schedulers.io())

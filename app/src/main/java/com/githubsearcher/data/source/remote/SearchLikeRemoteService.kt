@@ -1,6 +1,6 @@
 package com.githubsearcher.data.source.remote
 
-import com.githubsearcher.data.Users
+import com.githubsearcher.data.SearchLikeResponse
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ interface SearchLikeRemoteService {
     fun getUserInfo(
         @Query("q")
         userID: String
-    ): Single<Response<Users>>
+    ): Single<Response<SearchLikeResponse>>
 }

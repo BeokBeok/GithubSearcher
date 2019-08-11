@@ -6,8 +6,8 @@ import androidx.databinding.library.baseAdapters.BR
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
 import com.githubsearcher.base.BaseRecyclerView
+import com.githubsearcher.data.SearchLikeResponse
 import com.githubsearcher.data.Users
-import com.githubsearcher.data.UsersDetail
 import com.githubsearcher.databinding.FragmentSearchLikeContentsBinding
 import com.githubsearcher.databinding.RvUserDetailItemBinding
 import com.githubsearcher.util.RxEventBus
@@ -31,7 +31,8 @@ class SearchLikeContentsFragment :
     private fun initRecyclerView() {
         with(binding.rvUsers) {
             setHasFixedSize(true)
-            adapter = object : BaseRecyclerView.Adapter<Users, RvUserDetailItemBinding>(
+            adapter =
+                object : BaseRecyclerView.Adapter<SearchLikeResponse, RvUserDetailItemBinding>(
                 R.layout.rv_user_detail_item,
                 BR.usersDetail
             ) {}
@@ -49,7 +50,7 @@ class SearchLikeContentsFragment :
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ data ->
                             if (data is List<*>) {
-                                it.usersDetail.value = data as List<UsersDetail>
+                                it.usersDetail.value = data as List<Users>
                             }
                         }, { err ->
                             showToast(err.message)
