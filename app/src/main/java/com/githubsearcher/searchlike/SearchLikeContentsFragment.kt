@@ -32,7 +32,6 @@ class SearchLikeContentsFragment :
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun showContents() {
         binding.vm?.let {
             val position = getPosition()
@@ -43,12 +42,15 @@ class SearchLikeContentsFragment :
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ data ->
                             if (data is List<*>) {
+                                @Suppress("UNCHECKED_CAST")
                                 it.users.value = data as List<Users>
                             }
                         }, { err ->
                             showToast(err.message)
                         })
                 )
+            } else if (position == 1) {
+                it.showLikeUser()
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.githubsearcher.searchlike
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.githubsearcher.base.BaseViewModel
@@ -26,6 +25,7 @@ class SearchLikeViewModel(
                 userID,
                 onSuccess = {
                     users.value = it
+                    // Outline View Model -> Contents View Model
                     RxEventBus.sendEvent(it)
                 },
                 onFail = {
@@ -43,6 +43,21 @@ class SearchLikeViewModel(
         user: Users,
         isChecked: Boolean
     ) {
-        Log.d("kkk", "isCheck is $isChecked")
+        if (isChecked) {
+            addDisposable(searchLikeRepository.likeUser(user))
+        } else {
+            addDisposable(searchLikeRepository.unlikeUser(user.login))
+        }
+    }
+
+    fun showLikeUser() {
+        addDisposable(searchLikeRepository.showLikeUsers(
+            onSuccess = {
+                users.value = it
+            },
+            onFail = {
+                _errMsg.value = it
+            }
+        ))
     }
 }

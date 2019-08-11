@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import com.githubsearcher.di.dataSourceModules
 import com.githubsearcher.di.getRemoteServiceModule
+import com.githubsearcher.di.localServiceModule
 import com.githubsearcher.di.viewModelModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,6 +22,7 @@ class Application : Application() {
                 listOf(
                     viewModelModules,
                     dataSourceModules,
+                    localServiceModule,
                     getRemoteServiceModule("https://api.github.com")
                 )
             )

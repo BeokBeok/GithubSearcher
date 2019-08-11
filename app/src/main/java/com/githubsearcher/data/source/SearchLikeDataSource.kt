@@ -9,4 +9,13 @@ interface SearchLikeDataSource {
         onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable
+
+    fun likeUser(user: Users): Disposable
+
+    fun unlikeUser(id: String): Disposable
+
+    fun showLikeUsers(
+        onSuccess: (List<Users>) -> Unit,
+        onFail: (Throwable) -> Unit
+    ): Disposable
 }

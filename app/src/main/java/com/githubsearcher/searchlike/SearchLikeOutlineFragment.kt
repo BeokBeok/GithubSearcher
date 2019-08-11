@@ -26,21 +26,29 @@ class SearchLikeOutlineFragment :
     }
 
     private fun initViewPager() {
-        with(binding.vpContents) {
-            adapter = fragmentManager?.let { SearchLikeViewPagerAdapter(it) }
-            addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tlSearchLike))
-        }
+        binding.run {
 
-        with(binding.tlSearchLike) {
-            addTab(newTab().setText(R.string.search))
-            addTab(newTab().setText(R.string.like))
-            addOnTabSelectedListener(object : TabSelectedListener() {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    tab?.let {
-                        binding.vpContents.currentItem = it.position
+            with(vpContents) {
+                adapter = fragmentManager?.let { SearchLikeViewPagerAdapter(it) }
+                addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tlSearchLike))
+            }
+
+            with(tlSearchLike) {
+                addTab(newTab().setText(R.string.search))
+                addTab(newTab().setText(R.string.like))
+                addOnTabSelectedListener(object : TabSelectedListener() {
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
+                        tab?.let {
+                            vpContents.currentItem = it.position
+
+                            if (it.position == 1) {
+                                vpContents.adapter?.notifyDataSetChanged()
+                            }
+                        }
                     }
-                }
-            })
+                })
+            }
+
         }
     }
 

@@ -28,4 +28,16 @@ class SearchLikeRemoteDataSource(
         }, {
             onFail(it)
         })
+
+    override fun likeUser(user: Users): Disposable =
+        throw IllegalStateException("Not validate call")
+
+    override fun unlikeUser(id: String): Disposable =
+        throw IllegalStateException("Not validate call")
+
+    override fun showLikeUsers(
+        onSuccess: (List<Users>) -> Unit,
+        onFail: (Throwable) -> Unit
+    ): Disposable =
+        throw IllegalStateException("Not validate call")
 }
