@@ -34,6 +34,20 @@ class SearchLikeAdapter(
                 tabPos == 1
         }
 
+        override fun onBindViewHolder(item: Any?) {
+            super.onBindViewHolder(item)
+            setCheckBoxListener(item as Users)
+        }
+
+        private fun setCheckBoxListener(users: Users) {
+            with(binding.cbStar) {
+                setOnCheckedChangeListener(null)
+                isChecked = users.isLike
+                setOnCheckedChangeListener { _, isChecked ->
+                    users.isLike = isChecked
+                }
+            }
+        }
     }
 
     companion object {

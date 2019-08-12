@@ -25,7 +25,7 @@ abstract class BaseRecyclerView {
 
         protected val binding: VDB = DataBindingUtil.bind(itemView)!!
 
-        fun onBindViewHolder(item: Any?) {
+        open fun onBindViewHolder(item: Any?) {
             bindingVariableId?.let {
                 binding.setVariable(
                     it,
