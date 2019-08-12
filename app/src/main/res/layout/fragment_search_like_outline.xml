@@ -39,44 +39,45 @@
                 android:id="@+id/ib_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> vm.searchUserInfo(etSearch.getText().toString())}"
                 android:src="@android:drawable/ic_menu_search"
                 app:layout_constraintEnd_toStartOf="@id/ib_remove"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/et_search"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> vm.searchUserInfo(etSearch.getText().toString())}"
                 tools:ignore="contentDescription" />
 
             <ImageButton
                 android:id="@+id/ib_remove"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> vm.removeSearchWord()}"
                 android:src="@android:drawable/ic_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/ib_search"
                 app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{() -> vm.removeSearchWord()}"
                 tools:ignore="contentDescription" />
-
-            <!-- Tab -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tl_search_like"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_search" />
 
             <!-- Contents -->
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vp_contents"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/tl_search_like"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+            <!-- Tab -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_search_like"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tl_search_like" />
+                app:layout_constraintTop_toBottomOf="@id/vp_contents" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
