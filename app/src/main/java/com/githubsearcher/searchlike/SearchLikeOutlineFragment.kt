@@ -10,12 +10,13 @@ import com.githubsearcher.common.TabSelectedListener
 import com.githubsearcher.databinding.FragmentSearchLikeOutlineBinding
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SearchLikeOutlineFragment :
     BaseFragment<FragmentSearchLikeOutlineBinding, SearchLikeViewModel>(
         R.layout.fragment_search_like_outline
     ) {
-    override val viewModel by viewModel<SearchLikeViewModel>()
+    override val viewModel by viewModel<SearchLikeViewModel> { parametersOf(SEARCH) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -75,5 +76,9 @@ class SearchLikeOutlineFragment :
                 }
             }
         }
+    }
+
+    companion object {
+        private const val SEARCH = 0
     }
 }

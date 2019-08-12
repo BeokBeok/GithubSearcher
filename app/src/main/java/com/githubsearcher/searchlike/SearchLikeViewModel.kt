@@ -8,7 +8,8 @@ import com.githubsearcher.data.source.SearchLikeRepository
 import com.githubsearcher.util.RxEventBus
 
 class SearchLikeViewModel(
-    private val searchLikeRepository: SearchLikeRepository
+    private val searchLikeRepository: SearchLikeRepository,
+    private val id: Int
 ) : BaseViewModel() {
 
     private val _errMsg = MutableLiveData<Throwable>()
@@ -25,8 +26,10 @@ class SearchLikeViewModel(
                 userID,
                 onSuccess = {
                     users.value = it
-                    // Outline View Model -> Contents View Model
-                    RxEventBus.sendEvent(it)
+                    if (id == SEARCH) {
+                        // Outline View Model -> Contents View Model
+                        RxEventBus.sendEvent(it)
+                    }
                 },
                 onFail = {
                     _errMsg.value = it
@@ -48,6 +51,9 @@ class SearchLikeViewModel(
         } else {
             addDisposable(searchLikeRepository.unlikeUser(user.login))
         }
+        if (id == LIKE) {
+            showLikeUser()
+        }
     }
 
     fun showLikeUser() {
@@ -59,5 +65,10 @@ class SearchLikeViewModel(
                 _errMsg.value = it
             }
         ))
+    }
+
+    companion object {
+        private const val SEARCH = 0
+        private const val LIKE = 1
     }
 }

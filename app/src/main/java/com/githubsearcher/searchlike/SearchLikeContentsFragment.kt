@@ -10,13 +10,14 @@ import com.githubsearcher.util.RxEventBus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SearchLikeContentsFragment :
     BaseFragment<FragmentSearchLikeContentsBinding, SearchLikeViewModel>(
         R.layout.fragment_search_like_contents
     ) {
 
-    override val viewModel by viewModel<SearchLikeViewModel>()
+    override val viewModel by viewModel<SearchLikeViewModel> { parametersOf(getPosition()) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -28,7 +29,10 @@ class SearchLikeContentsFragment :
     private fun initRecyclerView() {
         with(binding.rvUsers) {
             setHasFixedSize(true)
-            adapter = SearchLikeAdapter(viewModel)
+            adapter = SearchLikeAdapter(
+                viewModel,
+                getPosition()
+            )
         }
     }
 

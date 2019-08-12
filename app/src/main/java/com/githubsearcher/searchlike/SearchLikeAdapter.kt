@@ -8,7 +8,8 @@ import com.githubsearcher.data.Users
 import com.githubsearcher.databinding.RvUserItemBinding
 
 class SearchLikeAdapter(
-    private val vm: SearchLikeViewModel
+    private val vm: SearchLikeViewModel,
+    private val tabPos: Int
 ) : BaseRecyclerView.Adapter<Users, RvUserItemBinding>(
     layoutRes,
     bindingVariableId
@@ -29,7 +30,10 @@ class SearchLikeAdapter(
 
         init {
             binding.vm = vm
+            binding.cbStar.isChecked =
+                tabPos == 1
         }
+
     }
 
     companion object {
