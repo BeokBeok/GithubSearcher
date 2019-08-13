@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,18 +9,11 @@
             type="com.githubsearcher.searchlike.SearchLikeViewModel" />
     </data>
 
-
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_users"
+        replaceItems="@{vm.users}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".searchlike.SearchLikeContentsFragment">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_users"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            replaceItems="@{vm.users}"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
-    </FrameLayout>
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
 </layout>
