@@ -8,9 +8,9 @@ import io.reactivex.disposables.Disposable
 class SearchLikeRepository(
     private val searchLikeLocalDataSource: SearchLikeLocalDataSource,
     private val searchLikeRemoteDataSource: SearchLikeRemoteDataSource
-) : SearchLikeDataSource {
+) {
 
-    override fun searchUserInfo(
+    fun searchUserInfo(
         userID: String,
         onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
@@ -20,13 +20,13 @@ class SearchLikeRepository(
         onFail
     )
 
-    override fun likeUser(user: Users): Disposable =
+    fun likeUser(user: Users): Disposable =
         searchLikeLocalDataSource.likeUser(user)
 
-    override fun unlikeUser(id: String): Disposable =
+    fun unlikeUser(id: String): Disposable =
         searchLikeLocalDataSource.unlikeUser(id)
 
-    override fun showLikeUsers(
+    fun showLikeUsers(
         onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable = searchLikeLocalDataSource.showLikeUsers(
