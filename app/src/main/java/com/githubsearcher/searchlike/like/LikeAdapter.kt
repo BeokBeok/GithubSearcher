@@ -1,16 +1,15 @@
-package com.githubsearcher.searchlike
+package com.githubsearcher.searchlike.like
 
 import android.view.ViewGroup
 import androidx.databinding.library.baseAdapters.BR
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseRecyclerView
 import com.githubsearcher.data.Users
-import com.githubsearcher.databinding.RvUserItemBinding
+import com.githubsearcher.databinding.RvUserLikeItemBinding
 
-class SearchLikeAdapter(
-    private val vm: SearchLikeViewModel,
-    private val tabPos: Int
-) : BaseRecyclerView.Adapter<Users, RvUserItemBinding>(
+class LikeAdapter(
+    private val vm: LikeViewModel
+) : BaseRecyclerView.Adapter<Users, RvUserLikeItemBinding>(
     layoutRes,
     bindingVariableId
 ) {
@@ -18,11 +17,11 @@ class SearchLikeAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseRecyclerView.ViewHolder<RvUserItemBinding> = ViewHolder(parent)
+    ): BaseRecyclerView.ViewHolder<RvUserLikeItemBinding> = ViewHolder(parent)
 
     inner class ViewHolder(
         parent: ViewGroup
-    ) : BaseRecyclerView.ViewHolder<RvUserItemBinding>(
+    ) : BaseRecyclerView.ViewHolder<RvUserLikeItemBinding>(
         layoutRes,
         parent,
         bindingVariableId
@@ -30,8 +29,7 @@ class SearchLikeAdapter(
 
         init {
             binding.vm = vm
-            binding.cbStar.isChecked =
-                tabPos == 1
+            binding.cbStar.isChecked = true
         }
 
         override fun onBindViewHolder(item: Any?) {
@@ -51,7 +49,7 @@ class SearchLikeAdapter(
     }
 
     companion object {
-        private const val layoutRes = R.layout.rv_user_item
+        private const val layoutRes = R.layout.rv_user_like_item
         private const val bindingVariableId = BR.users
     }
 }

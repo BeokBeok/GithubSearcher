@@ -1,6 +1,6 @@
 package com.githubsearcher.data.source.remote
 
-import com.githubsearcher.data.Users
+import com.githubsearcher.data.SearchLikeResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +12,7 @@ class SearchLikeRemoteDataSource(
     fun searchUserInfo(
         userID: String,
         page: Int,
-        onSuccess: (List<Users>) -> Unit,
+        onSuccess: (SearchLikeResponse) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable = retrofit.getUserInfo(
         userID,
@@ -21,10 +21,9 @@ class SearchLikeRemoteDataSource(
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
-            val users = it.body()
-            if (it.isSuccessful && users != null) {
-                val usersInfo = users.items
-                onSuccess(usersInfo)
+            val response = it.body()
+            if (it.isSuccessful && response != null) {
+                onSuccess(response)
             } else {
                 onFail(IllegalStateException("Please try again later"))
             }

@@ -1,5 +1,6 @@
 package com.githubsearcher.data.source
 
+import com.githubsearcher.data.SearchLikeResponse
 import com.githubsearcher.data.Users
 import com.githubsearcher.data.source.local.SearchLikeLocalDataSource
 import com.githubsearcher.data.source.remote.SearchLikeRemoteDataSource
@@ -13,7 +14,7 @@ class SearchLikeRepository(
     fun searchUserInfo(
         userID: String,
         page: Int,
-        onSuccess: (List<Users>) -> Unit,
+        onSuccess: (SearchLikeResponse) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable = searchLikeRemoteDataSource.searchUserInfo(
         userID,

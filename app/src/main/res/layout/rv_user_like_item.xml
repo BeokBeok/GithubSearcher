@@ -11,7 +11,7 @@
 
         <variable
             name="vm"
-            type="com.githubsearcher.searchlike.SearchLikeViewModel" />
+            type="com.githubsearcher.searchlike.like.LikeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
