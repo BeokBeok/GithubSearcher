@@ -52,7 +52,7 @@ class SearchLikeContentsFragment :
                     )
                     val lastVisibleItemPos =
                         (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-                    if (lastVisibleItemPos + 1 == adapter?.itemCount) {
+                    if (getPosition() == 0 && lastVisibleItemPos + 1 == adapter?.itemCount) {
                         binding.vm?.searchNextUsers(searchWord)
                     }
                 }

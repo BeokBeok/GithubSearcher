@@ -9,7 +9,7 @@ import com.githubsearcher.util.RxEventBus
 
 class SearchLikeViewModel(
     private val searchLikeRepository: SearchLikeRepository,
-    private val id: Int
+    val id: Int
 ) : BaseViewModel() {
 
     private val _errMsg = MutableLiveData<Throwable>()
