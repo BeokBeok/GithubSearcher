@@ -10,6 +10,8 @@ interface SearchLikeRemoteService {
     @GET("/search/users")
     fun getUserInfo(
         @Query("q")
-        userID: String
+        userID: String,
+        @Query("page")
+        page: Int = 1
     ): Single<Response<SearchLikeResponse>>
 }

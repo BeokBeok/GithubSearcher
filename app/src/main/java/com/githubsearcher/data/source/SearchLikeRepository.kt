@@ -12,10 +12,12 @@ class SearchLikeRepository(
 
     fun searchUserInfo(
         userID: String,
+        page: Int,
         onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
     ): Disposable = searchLikeRemoteDataSource.searchUserInfo(
         userID,
+        page,
         onSuccess,
         onFail
     )

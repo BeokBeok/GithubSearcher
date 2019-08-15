@@ -14,28 +14,25 @@ class SearchLikeViewModel(
 
     private val _errMsg = MutableLiveData<Throwable>()
     private val _searchWord = MutableLiveData<String>()
+    private var _page: Int = 1
 
     val users = MutableLiveData<List<Users>>()
     val errMsg: LiveData<Throwable> get() = _errMsg
     val searchWord: LiveData<String> get() = _searchWord
-
+    val isLoading = MutableLiveData<Boolean>()
 
     fun searchUserInfo(userID: String) {
-        addDisposable(
-            searchLikeRepository.searchUserInfo(
-                userID,
-                onSuccess = {
-                    users.value = it
-                    if (id == SEARCH) {
-                        // Outline View Model -> Contents View Model
-                        RxEventBus.sendEvent(it)
-                    }
-                },
-                onFail = {
-                    _errMsg.value = it
-                }
-            )
-        )
+        if (id == SEARCH) {
+            // Outline View Model -> Contents View Model
+            RxEventBus.sendEvent(listOf<Users>())
+        }
+        _page = 1
+        doSearchUser(userID)
+    }
+
+    fun searchNextUsers(userID: String) {
+        _page += 1
+        doSearchUser(userID)
     }
 
     fun removeSearchWord() {
@@ -65,6 +62,29 @@ class SearchLikeViewModel(
                 _errMsg.value = it
             }
         ))
+    }
+
+    private fun doSearchUser(userID: String) {
+        isLoading.value = true
+        RxEventBus.sendEvent(userID)
+        addDisposable(
+            searchLikeRepository.searchUserInfo(
+                userID,
+                _page,
+                onSuccess = {
+                    isLoading.value = false
+                    users.value = it
+                    if (id == SEARCH) {
+                        // Outline View Model -> Contents View Model
+                        RxEventBus.sendEvent(it)
+                    }
+                },
+                onFail = {
+                    isLoading.value = false
+                    _errMsg.value = it
+                }
+            )
+        )
     }
 
     companion object {

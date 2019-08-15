@@ -11,9 +11,13 @@ class SearchLikeRemoteDataSource(
 
     fun searchUserInfo(
         userID: String,
+        page: Int,
         onSuccess: (List<Users>) -> Unit,
         onFail: (Throwable) -> Unit
-    ): Disposable = retrofit.getUserInfo(userID)
+    ): Disposable = retrofit.getUserInfo(
+        userID,
+        page
+    )
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({

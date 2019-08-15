@@ -2,6 +2,9 @@ package com.githubsearcher.searchlike
 
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
 import com.githubsearcher.data.Users
@@ -17,6 +20,8 @@ class SearchLikeContentsFragment :
         R.layout.fragment_search_like_contents
     ) {
 
+    private var searchWord: String = ""
+
     override val viewModel by viewModel<SearchLikeViewModel> { parametersOf(getPosition()) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -24,6 +29,7 @@ class SearchLikeContentsFragment :
         binding.vm = viewModel
         initRecyclerView()
         showContents()
+        setObserve()
     }
 
     private fun initRecyclerView() {
@@ -33,6 +39,24 @@ class SearchLikeContentsFragment :
                 viewModel,
                 getPosition()
             )
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int
+                ) {
+                    super.onScrolled(
+                        recyclerView,
+                        dx,
+                        dy
+                    )
+                    val lastVisibleItemPos =
+                        (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                    if (lastVisibleItemPos + 1 == adapter?.itemCount) {
+                        binding.vm?.searchNextUsers(searchWord)
+                    }
+                }
+            })
         }
     }
 
@@ -48,6 +72,8 @@ class SearchLikeContentsFragment :
                             if (data is List<*>) {
                                 @Suppress("UNCHECKED_CAST")
                                 it.users.value = data as List<Users>
+                            } else if (data is String) {
+                                searchWord = data
                             }
                         }, { err ->
                             showToast(err.message)
@@ -56,6 +82,17 @@ class SearchLikeContentsFragment :
             } else if (position == 1) {
                 it.showLikeUser()
             }
+        }
+    }
+
+    private fun setObserve() {
+        binding.vm?.let {
+            it.errMsg.observe(
+                this,
+                Observer { throwable ->
+                    showToast(throwable.message)
+                }
+            )
         }
     }
 

@@ -8,7 +8,7 @@ import com.githubsearcher.base.BaseRecyclerView
 @BindingAdapter("replaceItems")
 fun RecyclerView.replaceItems(items: List<Any>?) {
     (this.adapter as? BaseRecyclerView.Adapter<Any, *>)?.run {
-        replaceItems(items)
+        if (items.isNullOrEmpty()) replaceItems(items) else appendItems(items)
         notifyDataSetChanged()
     }
 }
