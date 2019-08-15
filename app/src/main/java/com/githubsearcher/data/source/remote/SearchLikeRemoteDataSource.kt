@@ -26,7 +26,7 @@ class SearchLikeRemoteDataSource(
                 val usersInfo = users.items
                 onSuccess(usersInfo)
             } else {
-                onFail(IllegalStateException("Data is null"))
+                onFail(IllegalStateException("Please try again later"))
             }
         }, {
             onFail(it)

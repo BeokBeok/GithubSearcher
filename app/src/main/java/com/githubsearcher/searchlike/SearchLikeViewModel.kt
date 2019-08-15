@@ -73,10 +73,14 @@ class SearchLikeViewModel(
                 _page,
                 onSuccess = {
                     isLoading.value = false
-                    users.value = it
-                    if (id == SEARCH) {
-                        // Outline View Model -> Contents View Model
-                        RxEventBus.sendEvent(it)
+                    if (it.isEmpty()) {
+                        _errMsg.value = IllegalStateException("There is no more data to load")
+                    } else {
+                        users.value = it
+                        if (id == SEARCH) {
+                            // Outline View Model -> Contents View Model
+                            RxEventBus.sendEvent(it)
+                        }
                     }
                 },
                 onFail = {
