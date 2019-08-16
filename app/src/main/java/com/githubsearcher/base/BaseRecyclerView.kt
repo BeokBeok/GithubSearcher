@@ -67,11 +67,5 @@ abstract class BaseRecyclerView {
                 }
             }
         }
-
-        fun appendItems(items: List<A>?) {
-            items?.let {
-                this.items.addAll(it)
-            }
-        }
     }
 }

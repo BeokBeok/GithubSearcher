@@ -56,6 +56,12 @@ class SearchContentsFragment :
                     showToast(throwable.message)
                 }
             )
+            it.toastMsg.observe(
+                this,
+                Observer { msg ->
+                    showToast(msg)
+                }
+            )
         }
     }
 }

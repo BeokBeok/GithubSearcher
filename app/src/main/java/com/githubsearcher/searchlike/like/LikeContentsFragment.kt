@@ -36,6 +36,12 @@ class LikeContentsFragment :
                     showToast(throwable.message)
                 }
             )
+            it.toastMsg.observe(
+                this,
+                Observer { msg ->
+                    showToast(msg)
+                }
+            )
         }
     }
 

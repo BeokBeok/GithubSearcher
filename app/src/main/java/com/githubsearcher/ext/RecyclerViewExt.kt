@@ -6,10 +6,10 @@ import com.githubsearcher.base.BaseRecyclerView
 import com.githubsearcher.data.Users
 
 @Suppress("UNCHECKED_CAST")
-@BindingAdapter("replaceItems", "page")
-fun RecyclerView.replaceItems(items: List<Users>?, page: Int) {
+@BindingAdapter("replaceItems")
+fun RecyclerView.replaceItems(items: List<Users>?) {
     (this.adapter as? BaseRecyclerView.Adapter<Any, *>)?.run {
-        if (page > 1) appendItems(items) else replaceItems(items)
+        replaceItems(items)
         notifyDataSetChanged()
     }
 }

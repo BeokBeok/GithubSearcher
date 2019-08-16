@@ -12,13 +12,15 @@ class LikeViewModel(
 
     private val _errMsg = MutableLiveData<Throwable>()
     private val _users = MutableLiveData<List<Users>>()
+    private val _toastMsg = MutableLiveData<String>()
 
     val users: LiveData<List<Users>> get() = _users
     val errMsg: LiveData<Throwable> get() = _errMsg
-    val page = 1
+    val toastMsg: LiveData<String> get() = _toastMsg
 
     fun unlikeUser(user: Users) {
         addDisposable(searchLikeRepository.unlikeUser(user.login))
+        _toastMsg.value = "You unlike ${user.login}"
         showLikeUser()
     }
 

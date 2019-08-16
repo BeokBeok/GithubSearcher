@@ -10,16 +10,18 @@ class SearchViewModel(
     private val searchLikeRepository: SearchLikeRepository
 ) : BaseViewModel() {
 
-    private val _users = MutableLiveData<List<Users>>()
+    private val _users = MutableLiveData<MutableList<Users>>()
+        .apply { value = mutableListOf() }
     private val _errMsg = MutableLiveData<Throwable>()
     private val _searchWord = MutableLiveData<String>()
+    private val _toastMsg = MutableLiveData<String>()
+    private var currentPage = 1
     private var _totalPage = 1
 
-    val users: LiveData<List<Users>> get() = _users
+    val users: LiveData<MutableList<Users>> get() = _users
     val errMsg: LiveData<Throwable> get() = _errMsg
     val searchWord: LiveData<String> get() = _searchWord
-
-    var currentPage = 1
+    val toastMsg: LiveData<String> get() = _toastMsg
 
     fun searchUserInfo(userID: String) {
         currentPage = 1
@@ -40,33 +42,68 @@ class SearchViewModel(
         _searchWord.value = ""
     }
 
-    fun likeUser(
-        user: Users,
-        isChecked: Boolean
-    ) {
-        if (isChecked) {
-            addDisposable(searchLikeRepository.likeUser(user))
-        } else {
-            addDisposable(searchLikeRepository.unlikeUser(user.login))
+    fun likeUser(user: Users) {
+        addDisposable(searchLikeRepository.likeUser(user))
+        val removeLikeUsers = mutableListOf<Users>()
+        _users.value?.let {
+            removeLikeUsers.clear()
+            removeLikeUsers.addAll(
+                it.asSequence()
+                    .filterNot { likeUser ->
+                        likeUser.login == user.login
+                    }
+                    .toList()
+            )
         }
+        _users.value = removeLikeUsers
+        _toastMsg.value = "You like ${user.login}"
     }
 
     private fun doSearchUser(userID: String) {
-        searchLikeRepository.searchUserInfo(
-            userID,
-            currentPage,
-            onSuccess = {
-                setTotalPage(it.totalCount)
-                if (it.items.isEmpty()) {
-                    _errMsg.value = IllegalStateException("There is no more data to load")
-                } else {
-                    _users.value = it.items
+        addDisposable(
+            searchLikeRepository.searchUserInfo(
+                userID,
+                currentPage,
+                onSuccess = {
+                    setTotalPage(it.totalCount)
+                    if (it.items.isEmpty()) {
+                        _errMsg.value = IllegalStateException("There is no more data to load")
+                    } else {
+                        doCheckLikeUser(it.items)
+                    }
+                },
+                onFail = {
+                    _errMsg.value = it
                 }
+            )
+        )
+    }
+
+    private fun doCheckLikeUser(users: List<Users>) {
+        addDisposable(searchLikeRepository.showLikeUsers(
+            onSuccess = { likeUsers ->
+                val removeLikeUsers = mutableListOf<Users>()
+                _users.value?.let {
+                    if (currentPage == 1) {
+                        it.clear()
+                    }
+                    removeLikeUsers.addAll(it)
+                    removeLikeUsers.addAll(
+                        users.asSequence()
+                            .filterNot { users ->
+                                likeUsers.any { likeUser ->
+                                    likeUser.login == users.login
+                                }
+                            }
+                            .toList()
+                    )
+                }
+                _users.value = removeLikeUsers
             },
             onFail = {
                 _errMsg.value = it
             }
-        )
+        ))
     }
 
     private fun setTotalPage(totalCount: Int) {
