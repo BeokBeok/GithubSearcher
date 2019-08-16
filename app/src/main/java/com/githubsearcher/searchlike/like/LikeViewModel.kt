@@ -17,15 +17,8 @@ class LikeViewModel(
     val errMsg: LiveData<Throwable> get() = _errMsg
     val page = 1
 
-    fun likeUser(
-        user: Users,
-        isChecked: Boolean
-    ) {
-        if (isChecked) {
-            addDisposable(searchLikeRepository.likeUser(user))
-        } else {
-            addDisposable(searchLikeRepository.unlikeUser(user.login))
-        }
+    fun unlikeUser(user: Users) {
+        addDisposable(searchLikeRepository.unlikeUser(user.login))
         showLikeUser()
     }
 
