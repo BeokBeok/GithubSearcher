@@ -13,7 +13,7 @@ abstract class BaseRecyclerView {
         @LayoutRes
         private val layoutRes: Int,
         parent: ViewGroup,
-        private val bindingVariableId: Int?
+        private val bindingId: Int?
     ) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context)
             .inflate(
@@ -26,7 +26,7 @@ abstract class BaseRecyclerView {
         protected val binding: VDB = DataBindingUtil.bind(itemView)!!
 
         open fun onBindViewHolder(item: Any?) {
-            bindingVariableId?.let {
+            bindingId?.let {
                 binding.setVariable(
                     it,
                     item
@@ -38,7 +38,7 @@ abstract class BaseRecyclerView {
     abstract class Adapter<A : Any, VDB : ViewDataBinding>(
         @LayoutRes
         private val layoutRes: Int,
-        private val bindingVariableId: Int?
+        private val bindingId: Int?
     ) : RecyclerView.Adapter<ViewHolder<VDB>>() {
 
         private val items = mutableListOf<A>()
@@ -49,7 +49,7 @@ abstract class BaseRecyclerView {
         ): ViewHolder<VDB> = object : ViewHolder<VDB>(
             layoutRes,
             parent,
-            bindingVariableId
+            bindingId
         ) {}
 
         override fun getItemCount(): Int = items.size

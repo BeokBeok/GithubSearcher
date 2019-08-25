@@ -13,11 +13,11 @@ import com.githubsearcher.searchlike.search.SearchViewModel
 class SearchLikeAdapter<A : Any, VDB : ViewDataBinding>(
     @LayoutRes
     private val layoutRes: Int,
-    private val bindingVariableId: Int,
+    private val bindingId: Int,
     private val vm: BaseViewModel
 ) : BaseRecyclerView.Adapter<A, VDB>(
     layoutRes,
-    bindingVariableId
+    bindingId
 ) {
 
     override fun onCreateViewHolder(
@@ -30,7 +30,7 @@ class SearchLikeAdapter<A : Any, VDB : ViewDataBinding>(
     ) : BaseRecyclerView.ViewHolder<VDB>(
         layoutRes,
         parent,
-        bindingVariableId
+        bindingId
     ) {
 
         init {
