@@ -1,10 +1,14 @@
 package com.githubsearcher.searchlike.like
 
 import android.os.Bundle
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
+import com.githubsearcher.data.Users
 import com.githubsearcher.databinding.FragmentLikeContentsBinding
+import com.githubsearcher.databinding.RvUserLikeItemBinding
+import com.githubsearcher.searchlike.SearchLikeAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LikeContentsFragment :
@@ -24,7 +28,12 @@ class LikeContentsFragment :
     private fun initRecyclerView() {
         with(binding.rvUsers) {
             setHasFixedSize(true)
-            adapter = LikeAdapter(viewModel)
+            adapter =
+                SearchLikeAdapter<Users, RvUserLikeItemBinding>(
+                    R.layout.rv_user_like_item,
+                    BR.users,
+                    viewModel
+                )
         }
     }
 

@@ -1,12 +1,16 @@
 package com.githubsearcher.searchlike.search
 
 import android.os.Bundle
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
+import com.githubsearcher.data.Users
 import com.githubsearcher.databinding.FragmentSearchContentsBinding
+import com.githubsearcher.databinding.RvUserSearchItemBinding
+import com.githubsearcher.searchlike.SearchLikeAdapter
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class SearchContentsFragment :
@@ -26,7 +30,12 @@ class SearchContentsFragment :
     private fun initRecyclerView() {
         with(binding.rvUsers) {
             setHasFixedSize(true)
-            adapter = SearchAdapter(viewModel)
+            adapter =
+                SearchLikeAdapter<Users, RvUserSearchItemBinding>(
+                    R.layout.rv_user_search_item,
+                    BR.users,
+                    viewModel
+                )
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(
                     recyclerView: RecyclerView,
