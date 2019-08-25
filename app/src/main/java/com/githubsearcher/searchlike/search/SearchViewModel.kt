@@ -15,7 +15,8 @@ class SearchViewModel(
     private val _errMsg = MutableLiveData<Throwable>()
     private val _searchWord = MutableLiveData<String>()
     private val _toastMsg = MutableLiveData<String>()
-    private var currentPage = 1
+
+    private var _currentPage = 1
     private var _totalPage = 1
 
     val users: LiveData<MutableList<Users>> get() = _users
@@ -24,15 +25,15 @@ class SearchViewModel(
     val toastMsg: LiveData<String> get() = _toastMsg
 
     fun searchUserInfo(userID: String) {
-        currentPage = 1
+        _currentPage = 1
         _searchWord.value = userID
         doSearchUser(userID)
     }
 
     fun searchNextUsers() {
-        currentPage += 1
-        if (currentPage > _totalPage) {
-            currentPage = _totalPage
+        _currentPage += 1
+        if (_currentPage > _totalPage) {
+            _currentPage = _totalPage
             return
         }
         searchWord.value?.let { doSearchUser(it) }
@@ -46,7 +47,6 @@ class SearchViewModel(
         addDisposable(searchLikeRepository.likeUser(user))
         val removeLikeUsers = mutableListOf<Users>()
         _users.value?.let {
-            removeLikeUsers.clear()
             removeLikeUsers.addAll(
                 it.asSequence()
                     .filterNot { likeUser ->
@@ -63,7 +63,7 @@ class SearchViewModel(
         addDisposable(
             searchLikeRepository.searchUserInfo(
                 userID,
-                currentPage,
+                _currentPage,
                 onSuccess = {
                     setTotalPage(it.totalCount)
                     if (it.items.isEmpty()) {
@@ -84,7 +84,7 @@ class SearchViewModel(
             onSuccess = { likeUsers ->
                 val removeLikeUsers = mutableListOf<Users>()
                 _users.value?.let {
-                    if (currentPage == 1) {
+                    if (_currentPage == 1) {
                         it.clear()
                     }
                     removeLikeUsers.addAll(it)
