@@ -19,7 +19,5 @@ data class Users(
 
     @ColumnInfo(name = "score")
     @SerializedName("score")
-    val score: Double,
-
-    var isLike: Boolean
+    val score: Double
 )
