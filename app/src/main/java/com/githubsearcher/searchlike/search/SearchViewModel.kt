@@ -65,11 +65,16 @@ class SearchViewModel(
                 userID,
                 _currentPage,
                 onSuccess = {
-                    setTotalPage(it.totalCount)
-                    if (it.items.isEmpty()) {
-                        _errMsg.value = IllegalStateException("There is no more data to load")
+                    if (it.totalCount == 0) {
+                        _errMsg.value = IllegalStateException("No results found")
+                        _users.value = mutableListOf()
                     } else {
-                        doCheckLikeUser(it.items)
+                        setTotalPage(it.totalCount)
+                        if (it.items.isEmpty()) {
+                            _errMsg.value = IllegalStateException("There is no more data to load")
+                        } else {
+                            doCheckLikeUser(it.items)
+                        }
                     }
                 },
                 onFail = {
