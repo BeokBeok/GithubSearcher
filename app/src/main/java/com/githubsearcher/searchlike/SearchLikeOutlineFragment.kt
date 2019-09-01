@@ -16,6 +16,7 @@ class SearchLikeOutlineFragment :
     BaseFragment<FragmentSearchLikeOutlineBinding, SearchViewModel>(
         R.layout.fragment_search_like_outline
     ) {
+
     override val viewModel by sharedViewModel<SearchViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

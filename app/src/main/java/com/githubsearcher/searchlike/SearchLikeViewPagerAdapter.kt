@@ -11,23 +11,21 @@ class SearchLikeViewPagerAdapter(
     fm: FragmentManager
 ) : FragmentStatePagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
-        return if (position == LIKE) {
+    override fun getItem(position: Int): Fragment =
+        if (position == LIKE) {
             LikeContentsFragment()
         } else {
             SearchContentsFragment()
         }
-    }
 
     override fun getCount(): Int = MAX_PAGE
 
-    override fun getItemPosition(`object`: Any): Int {
-        return if (`object` is LikeContentsFragment) {
+    override fun getItemPosition(`object`: Any): Int =
+        if (`object` is LikeContentsFragment) {
             PagerAdapter.POSITION_NONE
         } else {
             super.getItemPosition(`object`)
         }
-    }
 
     companion object {
         private const val LIKE = 1
