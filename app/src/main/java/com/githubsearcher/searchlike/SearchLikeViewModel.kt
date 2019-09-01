@@ -1,4 +1,4 @@
-package com.githubsearcher.searchlike.search
+package com.githubsearcher.searchlike
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,23 +6,29 @@ import com.githubsearcher.base.BaseViewModel
 import com.githubsearcher.data.Users
 import com.githubsearcher.data.source.SearchLikeRepository
 
-class SearchViewModel(
+class SearchLikeViewModel(
     private val searchLikeRepository: SearchLikeRepository
 ) : BaseViewModel() {
 
-    private val _users = MutableLiveData<MutableList<Users>>()
-        .apply { value = mutableListOf() }
-    private val _errMsg = MutableLiveData<Throwable>()
+    private val _users = MutableLiveData<List<Users>>()
     private val _searchWord = MutableLiveData<String>()
+
+    private val _errMsg = MutableLiveData<Throwable>()
     private val _toastMsg = MutableLiveData<String>()
+
+    private val _searchedUsers = mutableListOf<Users>()
+    private val _likedUsers = mutableListOf<Users>()
 
     private var _currentPage = 1
     private var _totalPage = 1
 
-    val users: LiveData<MutableList<Users>> get() = _users
-    val errMsg: LiveData<Throwable> get() = _errMsg
+    val users: LiveData<List<Users>> get() = _users
     val searchWord: LiveData<String> get() = _searchWord
+
+    val errMsg: LiveData<Throwable> get() = _errMsg
     val toastMsg: LiveData<String> get() = _toastMsg
+
+    var currentTab: Int = 0
 
     fun searchUserInfo(userID: String) {
         _currentPage = 1
@@ -45,21 +51,44 @@ class SearchViewModel(
 
     fun likeUser(user: Users) {
         addDisposable(searchLikeRepository.likeUser(user))
-        val removeLikeUsers = mutableListOf<Users>()
-        _users.value?.let {
-            removeLikeUsers.addAll(
-                it.asSequence()
-                    .filterNot { likeUser ->
-                        likeUser.login == user.login
-                    }
-                    .toList()
-            )
-        }
-        _users.value = removeLikeUsers
+        val removeLikeUser = _searchedUsers.asSequence()
+            .filterNot { likeUser -> likeUser.login == user.login }
+            .toList()
+        _searchedUsers.clear()
+        _searchedUsers.addAll(removeLikeUser)
+        _users.value = _searchedUsers
         _toastMsg.value = "You like ${user.login}"
     }
 
+    fun unlikeUser(user: Users) {
+        addDisposable(searchLikeRepository.unlikeUser(user.login))
+        _toastMsg.value = "You unlike ${user.login}"
+        showLikeUser()
+    }
+
+    fun showUsers() = if (currentTab == 1) {
+        showLikeUser()
+    } else {
+        _users.value = _searchedUsers
+    }
+
+    private fun showLikeUser() {
+        addDisposable(searchLikeRepository.showLikeUsers(
+            onSuccess = {
+                _likedUsers.clear()
+                _likedUsers.addAll(it)
+                _users.value = _likedUsers
+            },
+            onFail = {
+                _errMsg.value = it
+            }
+        ))
+    }
+
     private fun doSearchUser(userID: String) {
+        if (currentTab == 1) {
+            return
+        }
         addDisposable(
             searchLikeRepository.searchUserInfo(
                 userID,
@@ -67,7 +96,8 @@ class SearchViewModel(
                 onSuccess = {
                     if (it.totalCount == 0) {
                         _errMsg.value = IllegalStateException("No results found")
-                        _users.value = mutableListOf()
+                        _searchedUsers.clear()
+                        _users.value = _searchedUsers
                     } else {
                         setTotalPage(it.totalCount)
                         if (it.items.isEmpty()) {
@@ -87,23 +117,19 @@ class SearchViewModel(
     private fun doCheckLikeUser(users: List<Users>) {
         addDisposable(searchLikeRepository.showLikeUsers(
             onSuccess = { likeUsers ->
-                val removeLikeUsers = mutableListOf<Users>()
-                _users.value?.let {
-                    if (_currentPage == 1) {
-                        it.clear()
-                    }
-                    removeLikeUsers.addAll(it)
-                    removeLikeUsers.addAll(
-                        users.asSequence()
-                            .filterNot { users ->
-                                likeUsers.any { likeUser ->
-                                    likeUser.login == users.login
-                                }
-                            }
-                            .toList()
-                    )
+                if (_currentPage == 1) {
+                    _searchedUsers.clear()
                 }
-                _users.value = removeLikeUsers
+                _searchedUsers.addAll(
+                    users.asSequence()
+                        .filterNot { users ->
+                            likeUsers.any { likeUser ->
+                                likeUser.login == users.login
+                            }
+                        }
+                        .toList()
+                )
+                _users.value = _searchedUsers
             },
             onFail = {
                 _errMsg.value = it

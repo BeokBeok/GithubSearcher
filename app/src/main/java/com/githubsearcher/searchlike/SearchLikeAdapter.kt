@@ -4,17 +4,13 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.githubsearcher.base.BaseRecyclerView
-import com.githubsearcher.base.BaseViewModel
-import com.githubsearcher.databinding.RvUserLikeItemBinding
-import com.githubsearcher.databinding.RvUserSearchItemBinding
-import com.githubsearcher.searchlike.like.LikeViewModel
-import com.githubsearcher.searchlike.search.SearchViewModel
+import com.githubsearcher.databinding.RvUserSearchLikeItemBinding
 
 class SearchLikeAdapter<A : Any, VDB : ViewDataBinding>(
     @LayoutRes
     private val layoutRes: Int,
     private val bindingId: Int,
-    private val vm: BaseViewModel
+    private val vm: SearchLikeViewModel
 ) : BaseRecyclerView.Adapter<A, VDB>(
     layoutRes,
     bindingId
@@ -33,24 +29,10 @@ class SearchLikeAdapter<A : Any, VDB : ViewDataBinding>(
         bindingId
     ) {
 
-        init {
-            if (binding is RvUserSearchItemBinding) {
-                binding.vm = vm as SearchViewModel
-            } else if (binding is RvUserLikeItemBinding) {
-                binding.vm = vm as LikeViewModel
-            }
-        }
-
         override fun onBindViewHolder(item: Any?) {
             super.onBindViewHolder(item)
-            setCheckBoxState()
-        }
-
-        private fun setCheckBoxState() {
-            if (binding is RvUserSearchItemBinding) {
-                binding.cbStar.isChecked = false
-            } else if (binding is RvUserLikeItemBinding) {
-                binding.cbStar.isChecked = true
+            if (binding is RvUserSearchLikeItemBinding) {
+                binding.vm = vm
             }
         }
     }

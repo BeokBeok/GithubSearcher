@@ -1,4 +1,4 @@
-package com.githubsearcher.searchlike.search
+package com.githubsearcher.searchlike
 
 import android.os.Bundle
 import androidx.databinding.library.baseAdapters.BR
@@ -8,17 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.githubsearcher.R
 import com.githubsearcher.base.BaseFragment
 import com.githubsearcher.data.Users
-import com.githubsearcher.databinding.FragmentSearchContentsBinding
-import com.githubsearcher.databinding.RvUserSearchItemBinding
-import com.githubsearcher.searchlike.SearchLikeAdapter
+import com.githubsearcher.databinding.FragmentSearchLikeContentsBinding
+import com.githubsearcher.databinding.RvUserSearchLikeItemBinding
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
-class SearchContentsFragment :
-    BaseFragment<FragmentSearchContentsBinding, SearchViewModel>(
-        R.layout.fragment_search_contents
+class SearchLikeContentsFragment :
+    BaseFragment<FragmentSearchLikeContentsBinding, SearchLikeViewModel>(
+        R.layout.fragment_search_like_contents
     ) {
 
-    override val viewModel by sharedViewModel<SearchViewModel>()
+    override val viewModel by sharedViewModel<SearchLikeViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -30,12 +29,11 @@ class SearchContentsFragment :
     private fun initRecyclerView() {
         with(binding.rvUsers) {
             setHasFixedSize(true)
-            adapter =
-                SearchLikeAdapter<Users, RvUserSearchItemBinding>(
-                    R.layout.rv_user_search_item,
-                    BR.users,
-                    viewModel
-                )
+            adapter = SearchLikeAdapter<Users, RvUserSearchLikeItemBinding>(
+                R.layout.rv_user_search_like_item,
+                BR.users,
+                viewModel
+            )
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(
                     recyclerView: RecyclerView,
@@ -47,6 +45,9 @@ class SearchContentsFragment :
                         dx,
                         dy
                     )
+                    if (arguments?.getInt("position", 0) == 1) {
+                        return
+                    }
                     val lastVisibleItemPos =
                         (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                     if (lastVisibleItemPos + 1 == adapter?.itemCount) {
