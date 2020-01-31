@@ -39,10 +39,11 @@ class SearchLikeOutlineFragment :
                 addTab(newTab().setText(R.string.like))
                 addOnTabSelectedListener(object : TabSelectedListener() {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
-                        tab?.let {
-                            vpContents.currentItem = it.position
-                            vm?.currentTab = it.position
-                            vm?.showUsers()
+                        if (tab == null) return
+                        tab.position.let {
+                            vpContents.currentItem = it
+                            vm?.currentTab = it
+                            vm?.showUser()
                         }
                     }
                 })
@@ -52,14 +53,12 @@ class SearchLikeOutlineFragment :
     }
 
     private fun setObserve() {
-        binding.vm?.let {
-            it.errMsg.observe(
-                this,
-                Observer { throwable ->
-                    showToast(throwable.message)
-                }
-            )
-        }
+        viewModel.errMsg.observe(
+            viewLifecycleOwner,
+            Observer { throwable ->
+                showToast(throwable.message)
+            }
+        )
     }
 
     private fun setKeypadEditorActionListener() {
@@ -67,7 +66,7 @@ class SearchLikeOutlineFragment :
             imeOptions = EditorInfo.IME_ACTION_DONE
             setOnEditorActionListener { textView, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    binding.vm?.searchUserInfo(textView.text.toString())
+                    viewModel.searchUserInfo(textView.text.toString())
                     false
                 } else {
                     true
